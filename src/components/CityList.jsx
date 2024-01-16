@@ -5,11 +5,14 @@ import Message from './Message.jsx';
 function CityList({ cities, isLoading }) {
   if (isLoading) return <Spinner />;
 
-  if (!cities.length) return <Message message='No cities' />;
+  if (!cities.length) return <Message message="No cities" />;
   return (
     <ul className={styles.cityList}>
       {cities.map((city, i) => (
-        <CityItem key={i} city={city} />
+        <CityItem
+          key={city.id}
+          city={city}
+        />
       ))}
     </ul>
   );
