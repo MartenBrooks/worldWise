@@ -12,6 +12,7 @@ import { useCities } from '../contexts/CitiesContext';
 import { useEffect, useState } from 'react';
 import { useGeolocation } from '../hooks/useGeolocation';
 import Button from './Button';
+import { useUrlPosition } from '../hooks/useUrlPosition';
 function Map() {
   const { cities } = useCities();
   const [mapPosition, setMapPosition] = useState([40, 0]);
@@ -20,12 +21,12 @@ function Map() {
     position: geolocationPosition,
     getPosition,
   } = useGeolocation();
-
+  const [mapLat, mapLng] = useUrlPosition();
   useEffect(
     function () {
-      if (mapLan && mapLng) setMapPosition([mapLan, mapLng]);
+      if (mapLat && mapLng) setMapPosition([mapLat, mapLng]);
     },
-    [mapLan, mapLng]
+    [mapLat, mapLng]
   );
 
   useEffect(
@@ -38,10 +39,7 @@ function Map() {
   return (
     <div className={styles.mapContainer}>
       {!geolocationPosition && (
-        <Button
-          type="position"
-          onClick={getPosition}
-        >
+        <Button type='position' onClick={getPosition}>
           {isLoadingPosition ? 'Loading...' : 'Use your position'}
         </Button>
       )}
@@ -53,14 +51,11 @@ function Map() {
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
+          url='https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png'
         />
         {cities.map((city) => {
           return (
-            <Marker
-              position={city.position}
-              key={city.id}
-            >
+            <Marker position={city.position} key={city.id}>
               <Popup>
                 <span>{city.emoji}</span> <span>{city.cityName}</span>
               </Popup>
