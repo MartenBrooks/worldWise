@@ -1,4 +1,4 @@
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styles from './Map.module.css';
 import {
   MapContainer,
@@ -39,7 +39,10 @@ function Map() {
   return (
     <div className={styles.mapContainer}>
       {!geolocationPosition && (
-        <Button type='position' onClick={getPosition}>
+        <Button
+          type="position"
+          onClick={getPosition}
+        >
           {isLoadingPosition ? 'Loading...' : 'Use your position'}
         </Button>
       )}
@@ -51,11 +54,14 @@ function Map() {
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url='https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png'
+          url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
         />
         {cities.map((city) => {
           return (
-            <Marker position={city.position} key={city.id}>
+            <Marker
+              position={city.position}
+              key={city.id}
+            >
               <Popup>
                 <span>{city.emoji}</span> <span>{city.cityName}</span>
               </Popup>
